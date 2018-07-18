@@ -42,19 +42,25 @@ class App extends Component {
    * @returns {null}
    */
   _loadCurrentUser = async () => {
-    const accounts = await web3.eth.getAccounts();
+    const accounts =  ["0xEFdE4e6C936c92816B381718AfA75F0414abfb33", "0xB767CB0BCB49c96BaCf11f9adbd55388faA0bE6b", "0x813036e8b5B2D12872135Bbd7C67B29399F346C7"];
     try {
       // get the owner associated with the current defaultAccount
-      const usernameHash = await DTwitter.methods.owners(web3.eth.defaultAccount).call();
+      const usernameHash = "0xc1671a7151e1edce1c1199a5d6db723cf1b0815d5f42c3e782581dde347530d6";
 
       // get user details from contract
-      const user = await DTwitter.methods.users(usernameHash).call();
+      const user = {
+        creationDate:"1531858631",
+        description:"this is me",
+        owner:"0xB767CB0BCB49c96BaCf11f9adbd55388faA0bE6b",
+        picture:"",
+        username:"emizzle"
+      };
 
       // update user picture with ipfs url
       user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
 
-      // get current user balance
-      const balance = await web3.eth.getBalance(web3.eth.defaultAccount);
+      // get current user (default account) balance
+      const balance = "5000000000000000000";
 
       // update state with user details
       return this.setState({ user: user, account: web3.eth.defaultAccount, accounts: accounts, balance: web3.utils.fromWei(balance, 'ether') });

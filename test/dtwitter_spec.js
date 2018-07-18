@@ -29,8 +29,6 @@ const tweetContent = 'test tweet';
 contract("DTwitter contract", function () {
   this.timeout(0);
 
-
-  // it(`should create a dtwitter user '${username}' with description '${description}'`, async function () {
   it("transaction to create a dtwitter user 'testhandle' with description 'test description' should be successful", async function () {
 
     // do the create account
@@ -43,9 +41,9 @@ contract("DTwitter contract", function () {
 
   it("should have created a user 'testhandle'", async function () {
 
-    // get user details from contract
-    const user = await users(web3.utils.keccak256(username)).call();
+    // TODO: get user details from contract
 
+    // check the values returned from the contract are correct
     assert.equal(user.username, username);
     assert.equal(user.description, description);
 
@@ -53,8 +51,7 @@ contract("DTwitter contract", function () {
 
   it("should have created an owner for our defaultAccount", async function () {
     
-    // read from the owners mapping
-    const usernameHash = await owners(web3.eth.defaultAccount).call();
+    // TODO: read from the owners mapping using web3.eth.defaultAccount
 
     // check the return value from owners mapping matches
     assert.equal(usernameHash, web3.utils.keccak256(username));
@@ -62,8 +59,11 @@ contract("DTwitter contract", function () {
 
   it("should know 'testhandle' exists", async function () {
     const usernameHash = web3.utils.keccak256(username);
-    const exists = await userExists(usernameHash).call();
 
+    // TODO: call the contract method 'userExists' with the username 
+    // hash to see if that username hash exists in the users mapping
+    
+    // check that the contract agrees the user exists
     assert.equal(exists, true);
   });
 
@@ -73,10 +73,12 @@ contract("DTwitter contract", function () {
     const updatedDescription = description + ' edited';
     const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
 
-    await editAccount(usernameHash, updatedDescription, updatedImageHash).send();
+    // TODO: update the account details in our contract using the editAccount
+    // function in the contract
+    
+    // TODO: retrieve the updated user details from the user mapping in the contract
 
-    const updatedUserDetails = await users(usernameHash).call();
-
+    // check our updated values match the input
     assert.equal(updatedUserDetails.description, updatedDescription);
     assert.equal(updatedUserDetails.picture, updatedImageHash);
   });
@@ -84,15 +86,13 @@ contract("DTwitter contract", function () {
   it("should be able to add a tweet as 'testhandle' and receive it via contract event", async function () {
     const usernameHash = web3.utils.keccak256(username);
     
-    DTwitter.events.NewTweet({
-      filter: { _from: usernameHash },
-      fromBlock: 0
-    })
-      .on('data', (event) => {
-        assert.equal(event.returnValues.tweet, tweetContent);
-      });
+    // TODO: Subscribe to the NewTweet contract event using the
+    // usernameHash as the _from filter. When data is received
+    // from the subscription, check that the tweet value from the
+    // contract is the same as the tweeted content.
 
-    await tweet(tweetContent).send();
+    // TODO: send the tweet to the contract which should trigger
+    // the NewTweet event subscription above
   });
 
 });
