@@ -51,9 +51,9 @@ class CreateUser extends Component {
       //const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
 
       // check result status. if status is false or '0x0', show user the tx details to debug error
-      if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
-        return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
-      }
+      // if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+      //   return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+      // }
 
       // Completed of async action, set loading state back
       this.setState({ isLoading: false });
